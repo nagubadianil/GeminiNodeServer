@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
     console.log("received / get request")
 
     const sampleData = {
-      message: 'Hello from Node.js with Express!',
+      message: 'This is dummy message',
       data: [
         { id: 1, name: 'Item 1' },
         { id: 2, name: 'Item 2' }
