@@ -201,8 +201,8 @@ app.post(
                 // Respond with file information
                 res.json({
                     fileData: {
-                        fileUri: fileStatus.uri,
-                        mimeType: fileStatus.mimeType,
+                        fileUri: uploadResult.file.uri,
+                        mimeType: uploadResult.file.mimeType,
                     },
                 });
             } catch (uploadError) {
