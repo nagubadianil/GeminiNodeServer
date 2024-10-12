@@ -7,7 +7,7 @@ const os = require('os');
 const ytdl = require("ytdl-core"); // Require at the top
 const crypto = require('crypto'); // For generating random data
 
-const { GoogleAIFileManager, FileState } = require("@google/generative-ai/server");
+const { GoogleAIFileManager, GoogleAICacheManager, FileState } = require("@google/generative-ai/server");
 require("dotenv").config();
 const bodyParser = require('body-parser');
 
@@ -16,6 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const fileManager = new GoogleAIFileManager(process.env.GOOGLE_API_KEY);
+const cacheManager = new GoogleAICacheManager(process.env.GOOGLE_API_KEY);
 
 const cors = require('cors');
 app.use(cors());
@@ -48,6 +49,19 @@ app.get('/', (req, res) => {
   
     res.json(sampleData);
   });
+
+app.post('/createCache', async (req, res) => {
+    const data = req.body;
+    console.log('Received data:', data);
+
+    const cacheResult = await cacheManager.create(data);
+
+    console.log("createCache cacheResult:", JSON.stringify(cacheResult, null, 2))
+
+    res.json({
+       cacheName: cacheResult.name,
+      })
+});
 
 // Endpoint to upload a local video
 app.post(
