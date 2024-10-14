@@ -32,7 +32,7 @@ initGemini()
 
 async function initGemini() {
     gemini = await sheetService.getGeminiData();
-    console.log("initGemini: ", JSON.stringify(gemini,null,2))
+    //console.log("initGemini: ", JSON.stringify(gemini,null,2))
     fileManager = new GoogleAIFileManager(gemini.apiKey);
     cacheManager = new GoogleAICacheManager(gemini.apiKey);
 }
