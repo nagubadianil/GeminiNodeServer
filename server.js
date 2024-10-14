@@ -10,13 +10,15 @@ const crypto = require('crypto'); // For generating random data
 const { GoogleAIFileManager, GoogleAICacheManager, FileState } = require("@google/generative-ai/server");
 require("dotenv").config();
 const bodyParser = require('body-parser');
-
+const GoogleSheetService = require('./GoogleSheetService'); 
+const sheetService = new GoogleSheetService()
+let gemini = null
+let fileManager = null
+let cacheManager = null
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const fileManager = new GoogleAIFileManager(process.env.GOOGLE_API_KEY);
-const cacheManager = new GoogleAICacheManager(process.env.GOOGLE_API_KEY);
 
 const cors = require('cors');
 app.use(cors());
@@ -24,6 +26,18 @@ app.use(cors());
 app.use(express.json()); // This will parse JSON request bodies
 // Setup for handling file uploads using multer
 const upload = multer({ dest: "uploads/" });
+
+
+initGemini()
+
+async function initGemini() {
+    gemini = await sheetService.getGeminiData();
+    console.log("initGemini: ", JSON.stringify(gemini,null,2))
+    fileManager = new GoogleAIFileManager(gemini.apiKey);
+    cacheManager = new GoogleAICacheManager(gemini.apiKey);
+}
+
+
 
 // Helper function to check file upload status
 async function checkFileStatus(fileName) {
