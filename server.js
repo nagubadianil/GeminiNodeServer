@@ -10,7 +10,7 @@ const crypto = require('crypto'); // For generating random data
 const { GoogleAIFileManager, GoogleAICacheManager, FileState } = require("@google/generative-ai/server");
 require("dotenv").config();
 const bodyParser = require('body-parser');
-const GoogleSheetService = require('./GoogleSheetService'); 
+const GoogleSheetService = require('googlesheetservice'); 
 const sheetService = new GoogleSheetService()
 let gemini = null
 let fileManager = null
